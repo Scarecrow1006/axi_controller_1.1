@@ -101,7 +101,7 @@ module axi_controller_v1_1 #
 		.C_M_AXI_RUSER_WIDTH(C_M00_AXI_RUSER_WIDTH),
 		.C_M_AXI_BUSER_WIDTH(C_M00_AXI_BUSER_WIDTH)
 	) axi_controller_v1_1_M00_AXI_inst (
-		.STATE(next),
+		.STATE(cur),
 		.INIT_AXI_TXN(m00_axi_init_axi_txn),
 		.TXN_DONE(m00_axi_txn_done),
 		.ERROR(m00_axi_error),
@@ -156,7 +156,6 @@ module axi_controller_v1_1 #
 	always @(posedge m00_axi_aclk) begin
 		if(m00_axi_aresetn==1'b0) begin
 			cur<=t_0;
-			next<=t_0;
 		end
 		else begin
 			cur<=next;
@@ -191,14 +190,14 @@ module axi_controller_v1_1 #
 				end
 				else next=t_4;
 			end
-			t_5:  begin
+			t_5: begin
 				if(m00_axi_wready) next=t_6;
 				else next=t_5;
 			end
 			t_6: begin
-				next<=t_6;
+				next=t_6;
 			end
-		default next<=t_0;
+		default  next=t_0;
 		endcase
 	end
 	
